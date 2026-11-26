@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    role: {
+      type: String,
+      default: "user",
+    },
     interests: [
       {
         type: mongoose.Schema.Types.ObjectId,
