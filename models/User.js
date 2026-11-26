@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     fullName:{
      type: String,
      required: true,
-     trim: true,
     },
     username: {
       type: String,
@@ -35,6 +34,10 @@ const userSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       default: "",
+    },
+    role: {
+      type: String,
+      default: "user",
     },
     interests: [
       {
