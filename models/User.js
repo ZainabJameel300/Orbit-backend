@@ -7,18 +7,42 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      lowercase:true
+      lowercase: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
     hashedPassword: {
       type: String,
-      required: true
+      required: true,
     },
+    bio: {
+      type: String,
+      default: "",
+    },
+    profileImage: {
+      type: String,
+      default: "",
+    },
+    coverImage: {
+      type: String,
+      default: "",
+    },
+    interests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Interest",
+      },
+    ],
   },
   { timestamps: true },
 );
 
 userSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
+  transform: (_document, returnedObject) => {
     delete returnedObject.hashedPassword;
   },
 });
