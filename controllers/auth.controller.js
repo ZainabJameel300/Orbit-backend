@@ -4,15 +4,17 @@ const jwt = require("jsonwebtoken");
 
 async function signUp(req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, password, fullName,  email} = req.body;
 
     // Validation
-    if (!username || !password) return res.status(400).json({message: "Username and password are required.",});
+    if (!username || !password || !fullName || !email) return res.status(400).json({message: "All fields are required.",});
     if (password.length < 6) return res.status(400).json({message: "Password must be more than 6 characters",});
 
     const user = await User.create({
       username,
       hashedPassword: await bcrypt.hash(password, 12),
+      fullName,
+      email,
     });
 
     const { _id, createdAt, updatedAt } = user;
@@ -41,14 +43,14 @@ async function signUp(req, res) {
 
 async function signIn(req, res) {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return res.status(400).json({
-        message: "Username and password are required.",
+        message: "Email and password are required.",
       });
     }
-    const user = await User.findOne({ username:username.toLowerCase().trim() });
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials." });
     }
